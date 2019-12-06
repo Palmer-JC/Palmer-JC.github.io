@@ -1,0 +1,22 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Check console for success</title>
+</head>
+<body>
+<script>
+	const jsElem = document.createElement('script');
+	jsElem.setAttribute("type", "text/javascript");
+	jsElem.setAttribute("src", "https://surikov.github.io/webaudiofontdata/sound/0090_JCLive_sf2_file.js");
+	document.getElementsByTagName('head')[0].appendChild(jsElem);	
+
+	jsElem.onload = () => { 
+		console.log('it loaded');
+	};
+
+	jsElem.onerror = () => {
+		alert('Failed to load');
+	};
+</script>
+</body>
+</html>
