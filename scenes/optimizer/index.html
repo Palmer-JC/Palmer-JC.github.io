@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.babylonjs.com/babylon.js"></script>
+    <style>
+        #renderCanvas{ width: 32px; height: 32px;}
+        td.number    {text-align:right;}
+    </style>
+<body>
+    <H1>Indexed vs Un-Indexed Comparer</H1>
+    <input type="checkbox" id="noAnimationsCheck" checked>
+    <label for="noAnimationsCheck">Disable Animations, </label>
+
+    <input type="checkbox" id="noMorphsCheck" checked>
+    <label for="noMorphsCheck">Delete Morph Targets, </label>
+
+    Number of frames:
+    <input type="number" id="numFrames" size="4"  min="100" max="5000" value="500" step="100">
+
+    <input type="button" id="loadBtn" value="Load & Run" onclick="loadScene()">
+    <canvas id="renderCanvas"></canvas>
+    <input type="button" id="saveBtn" value="Save (.CSV)" onclick="save()">
+    <br><br>
+    <table>
+        <tr style="background-color: #00D0D0;">
+            <th>Mesh</th>
+            <th># Indexed Verts</th>
+            <th># Un-Indexed Verts</th>
+            <th>Unique Verts %</th>
+            <th>Avg Un-indexed (Loss) / Gain %</th>
+        </tr>
+
+        <tr>
+            <td>veryGoodCandidate</td>
+            <td class="number">24682</td>
+            <td class="number">24735</td>
+            <td class="number">95%</td>
+            <td class="number">22%</td>
+        </tr>
+
+        <tr>
+            <td class="number">NotSoGood</td>
+            <td class="number">13452</td>
+            <td class="number">22673</td>
+            <td class="number">40%</td>
+            <td class="number">(4)%</td>
+        </tr>
+
+        <tr>
+            <td class="number">AllReadyIndexed</td>
+            <td class="number">7003</td>
+            <td class="number">7003</td>
+            <td class="number">100%</td>
+            <td class="number">N/A</td>
+        </tr>
+    </table>
+
+<script>
+     const canvas = document.getElementById("renderCanvas");
+     const engine = new BABYLON.Engine(canvas, true);
+     const scene = new BABYLON.Scene(engine);
+     engine.runRenderLoop(function () { scene.render(); });
+
+</script>
+</body>
+</html>
