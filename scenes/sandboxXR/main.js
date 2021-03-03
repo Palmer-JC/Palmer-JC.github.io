@@ -38,7 +38,7 @@ function begin(doesVR, doesAR) {
 }
 //==============================================================================
 function loadCamera(canvas) {
-    const distance = isXRCapable ? 3.5 : 6.5;
+    const distance = 3.5;
     camera = new BABYLON.ArcRotateCamera("XR_Fallback", -Math.PI / 2, (Math.PI / 2) - .15, distance, new BABYLON.Vector3(0, 1, 0), scene);
     camera.wheelPrecision = 175;
     camera.minZ = 0.001;

@@ -47,8 +47,6 @@ class MatSettings {
         }
 
         return `${this.material.name}: ${(ret.length > 0) ? ret : '  NONE'}`;
-
-        return ret;
     }
 
     reset() {
@@ -60,7 +58,7 @@ class MatSettings {
 
         this.material.albedoColor.copyFrom(this.albedoColor);
         this.material.metallic = this.metallic;
-        this.material.roughness !== this.roughness;
+        this.material.roughness = this.roughness;
 
         this.material.clearCoat.isEnabled = this.clearCoatIsEnabled;
         this.material.clearCoat.intensity = this.clearCoatIntensity;
@@ -79,6 +77,8 @@ let currMaterial;
 let matMenu;
 
 function getMaterialsTab() {
+    enablePropertyControls(); // from rightPanel.js
+
     // filter out Portal materials from entire list
     materials = [];
     originals = [];

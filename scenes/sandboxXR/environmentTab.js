@@ -25,7 +25,7 @@ function getEnvironmentsTab() {
 
     const ret = new XR_UIPortal.Container('Environment', XR_UIPortal.Panel.LAYOUT_HORIZONTAL);
 
-    envMenu = new XR_UIPortal.Menu(null, ['Urban Environment', 'Studio, 256px', 'Studio, 512px', 'Studio Panorama Radiance', 'Flower Road', 'Portal', 'Custom'], XR_UIPortal.Panel.LAYOUT_VERTICAL, 8, true);
+    envMenu = new XR_UIPortal.Menu(null, ['Urban Environment', 'Studio, 256px', 'Studio, 512px', 'Studio Panorama Radiance', 'Flower Road', 'XR-UIPortal (Internal)', 'Custom'], XR_UIPortal.Panel.LAYOUT_VERTICAL, 8, true);
     envMenu.reportSelectedIdx(0);
     envMenu.assignCommonCallback(envCallback);
     envMenu.setItemEnabled(6, false);

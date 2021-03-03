@@ -149,7 +149,7 @@ function makeMatSliders(parentPanel) {
     metallicSlider.onChangeCallBack((value) => { currMaterial.metallic = value; });
     parentPanel.addSubPanel(metallicSlider);
     // - - - - - - - - - - - - - - -
-    roughnessSlider = new XR_UIPortal.SliderPanel('Roughness', 0, 1, 0);
+    roughnessSlider = new XR_UIPortal.SliderPanel('Roughness', 0, 1, 1);
     roughnessSlider.stretchHorizontal = true;
     roughnessSlider.onChangeCallBack((value) => { currMaterial.roughness = value; });
     parentPanel.addSubPanel(roughnessSlider);
