@@ -21,11 +21,11 @@ const VelocityPerFrame = 1.5;
         launch(hand) {
             // get the spheres on the index finger to determine direction
             const tipPos = hand.indexFinger.tip.position;
-            const interPos = hand.indexFinger.intermediate.position;
+            const proximalPos = hand.indexFinger.proximal.position;
 
             // calc direction
             this.posAtLaunch.copyFrom(tipPos);
-            this.posAtLaunch.subtractToRef(interPos, this.direction);
+            this.posAtLaunch.subtractToRef(proximalPos, this.direction);
             this.direction.normalize();
 
             // use direction to set rotation
