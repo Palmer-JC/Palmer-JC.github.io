@@ -125,14 +125,14 @@ function makeLeftPanel(parentPanel) {
 }
 
 function updateFileDetails(fileName) {
-    modelName = fileName.substring(0, fileName.indexOf('.'));
+    const dot = fileName.indexOf('.');
+    modelName = (dot > 0) ? fileName.substring(0, dot) : fileName;
     modelLabelPanel.updateText(fileName);
     reportBtn.enableButton(true);
 
     fileDetailsPanel.removeAll();
 
     const tableContainer  = new XR_UIPortal.Container('table', XR_UIPortal.Panel.LAYOUT_HORIZONTAL);
- //   tablePanel.stretch(false, true); // stretch horizontally, but not vertically
     const headerContainer = new XR_UIPortal.Container('tblHeader' , XR_UIPortal.Panel.LAYOUT_VERTICAL);
     const valsContainer   = new XR_UIPortal.Container('tblVals'   , XR_UIPortal.Panel.LAYOUT_VERTICAL);
 
@@ -148,7 +148,7 @@ function updateFileDetails(fileName) {
     valsContainer.addSubPanel(new XR_UIPortal.Label(getTKTris().toFixed(2))        ).horizontalAlign(XR_UIPortal.Panel.ALIGN_RIGHT).setLetterMaterial(valColor);
     valsContainer.addSubPanel(new XR_UIPortal.Label(getTKVerts().toFixed(2))       ).horizontalAlign(XR_UIPortal.Panel.ALIGN_RIGHT).setLetterMaterial(valColor);
 
-    upDownSlider = new XR_UIPortal.SliderPanel('Up/Down', -1.5, 1.5, 0, XR_UIPortal.Panel.LAYOUT_VERTICAL);
+    upDownSlider = new XR_UIPortal.SliderPanel('Up/Down', -1.75, 1.75, 0, XR_UIPortal.Panel.LAYOUT_VERTICAL);
     upDownSlider.onChangeCallBack(heightCallback);
 
     tableContainer.addSubPanel(headerContainer);

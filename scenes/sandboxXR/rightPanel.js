@@ -134,7 +134,12 @@ function makeColorDials(parentPanel) {
     subSurfIntensitySlider = new XR_UIPortal.SliderPanel('SubSurface Intensity', 0, 1, 1);
     subSurfIntensitySlider.stretchHorizontal = true;
     subSurfIntensitySlider.title.setFontSize(.7, true);
-    subSurfIntensitySlider.onChangeCallBack((value) => { currMaterial.subSurface.translucencyIntensity = value; currMaterial.subSurface.isTranslucencyEnabled = value > 0; } );
+    subSurfIntensitySlider.onChangeCallBack((value) => {
+        // really hard to get slider all the way to the left, so base on 2 decimals
+        currMaterial.subSurface.translucencyIntensity = Number(value.toFixed(2));
+        currMaterial.subSurface.isTranslucencyEnabled = currMaterial.subSurface.translucencyIntensity > 0;
+        enableSubSurf();
+    } );
     parentPanel.addSubPanel(subSurfIntensitySlider);
 }
 
@@ -156,12 +161,20 @@ function makeMatSliders(parentPanel) {
     // - - - - - - - - - - - - - - -
     clearCoatSlider = new XR_UIPortal.SliderPanel('Clear Coat', 0, 1, 1);
     clearCoatSlider.stretchHorizontal = true;
-    clearCoatSlider.onChangeCallBack((value) => { currMaterial.clearCoat.intensity = value; currMaterial.clearCoat.isEnabled = value > 0; } );
+    clearCoatSlider.onChangeCallBack((value) => {
+        // really hard to get slider all the way to the left, so base on 2 decimals
+        currMaterial.clearCoat.intensity = Number(value.toFixed(2));
+        currMaterial.clearCoat.isEnabled = currMaterial.clearCoat.intensity > 0;
+    } );
     parentPanel.addSubPanel(clearCoatSlider);
     // - - - - - - - - - - - - - - -
     sheenSlider = new XR_UIPortal.SliderPanel('Sheen', 0, 1, 1);
     sheenSlider.stretchHorizontal = true;
-    sheenSlider.onChangeCallBack((value) => { currMaterial.sheen.intensity = value; currMaterial.sheen.isEnabled = value > 0; });
+    sheenSlider.onChangeCallBack((value) => {
+        // really hard to get slider all the way to the left, so base on 2 decimals
+        currMaterial.sheen.intensity = Number(value.toFixed(2));
+        currMaterial.sheen.isEnabled = currMaterial.sheen.intensity > 0;
+    } );
     parentPanel.addSubPanel(sheenSlider);
 }
 
@@ -197,8 +210,13 @@ function enablePropertyControls(enabled) {
     albedoGreenDial.enableDial(enabled);
     albedoBlueDial .enableDial(enabled);
 
+    subSurfIntensitySlider.enableSlider(enabled);
+    enableSubSurf();
+}
+
+function enableSubSurf() {
+    const enabled = currMaterial && currMaterial.subSurface.isTranslucencyEnabled;
     subSurfRedDial  .enableDial(enabled);
     subSurfGreenDial.enableDial(enabled);
     subSurfBlueDial .enableDial(enabled);
-    subSurfIntensitySlider.enableSlider(enabled);
 }

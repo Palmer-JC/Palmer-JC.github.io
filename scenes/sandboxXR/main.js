@@ -1,10 +1,12 @@
 let vr;
 let ar;
+let justHands;
 let isXRCapable;
 
 let canvas;
 let engine;
 let scene;
+let sceneInstru;
 
 let portal;
 let camera;
@@ -13,14 +15,17 @@ let xrHelper;
 const FpsFrequency = 50;
 let freqCounter = 0;
 
-function begin(doesVR, doesAR) {
+function begin(doesVR, doesAR, noPortal) {
     vr = doesVR;
     ar = doesAR;
+    justHands = noPortal;
     isXRCapable = vr || ar;
 
     canvas = document.getElementById("renderCanvas");
     engine = new BABYLON.Engine(canvas, true);
     scene = new BABYLON.Scene(engine);
+    sceneInstru = new BABYLON.SceneInstrumentation(scene);
+    if (!ar) scene.clearColor = new BABYLON.Color3(.4, .5, .8);
 
     loadFloor();
     loadPortal();
@@ -49,7 +54,7 @@ function loadCamera(canvas) {
             uiOptions: {sessionMode: ar ? 'immersive-ar' : 'immersive-vr'},
 
             floorMeshes: [floor],
-            timeToTeleport: 3000
+            timeToTeleport: 3500
         };
         BABYLON.WebXRDefaultExperience.CreateAsync(scene, options).then((defaultExperience) => {  //
             xrHelper = defaultExperience.baseExperience;
@@ -66,6 +71,16 @@ function loadCamera(canvas) {
 //==============================================================================
 function loadPortal() {
     portal = XR_UIPortal.Portal.createInstance(scene, vr, ar);
+
+    // make first, so can easily test arms / nexie tube display without rest; just add
+    // a return right after
+    if (isXRCapable) {
+        makeLeftArmPanel (portal.leftArmSurface);
+        makeRightArmPanel(portal.rightArmSurface);
+    }
+
+    if (justHands) return;
+
     XR_UIPortal.Label.DEFAULT_FONT_MODULE = 'Font2D';
 //    XR_UIPortal.System.CURRENT_FONT_MAT_ARRAY = XR_UIPortal.System.BLACK;
     XR_UIPortal.System.makeRed();
@@ -77,6 +92,7 @@ function loadPortal() {
     const titleContainer = new XR_UIPortal.Container('Sandbox Title', XR_UIPortal.Panel.LAYOUT_HORIZONTAL);
    titleContainer.horizontalAlign(XR_UIPortal.Panel.ALIGN_HCENTER).vertAlign(XR_UIPortal.Panel.ALIGN_TOP);
    titleContainer.stretchHorizontal = true;
+   titleContainer.margin(0, 0);
 
     const mixedTextContainer = new XR_UIPortal.Container('Title Txt', XR_UIPortal.Panel.LAYOUT_HORIZONTAL); // needed because ,mixing 2 & 3D fonts
     mixedTextContainer.horizontalAlign(XR_UIPortal.Panel.ALIGN_HCENTER);
@@ -98,10 +114,4 @@ function loadPortal() {
     mainTab.assignTab('Environment', getEnvironmentsTab());
     mainTab.assignTab('Materials', getMaterialsTab(), true); // load after env, since uses intensity slider
     mainTab.assignTab('Experiments',getExperiments());
-
-    if (isXRCapable) {
-        makeLeftArmPanel (portal.leftArmPanel);
-        makeRightArmPanel(portal.rightArmPanel);
-    }
-    console.log(XR_UIPortal.System.Touchables.length + ' touchables');
 }

@@ -16,7 +16,7 @@ let next = 0;
 function createTriggerPull(hand) {
     const ret =  new XR_UIPortal.PoseSequence(
         // sequence name, hand, repeatability as long as maintained, and debugMode
-        'TriggerPull', hand, true, 1,
+        'TriggerPull', hand, true, 0,
         [
             // index & middle tips far from it's proximal
             // ring & little  tips close to it's metacarpal
@@ -34,7 +34,7 @@ function createTriggerPull(hand) {
                     XR_UIPortal.DIR_OF_MEASURE.FromMinApart,
                     XR_UIPortal.DIR_OF_MEASURE.FromMinApart
                 ],
-                [.80, .80, .80, .80], // ratios of max closed or openened
+                [.90, .90, .85, .85], // ratios of max closed or openened
                 0.25                  // ratio of backslide amt, before cancel
             ),
 
@@ -58,7 +58,7 @@ function createTriggerPull(hand) {
                     XR_UIPortal.DIR_OF_MEASURE.FromMinApart,
                     XR_UIPortal.DIR_OF_MEASURE.FromMinApart
                 ],
-                [.80, .80, .80, .80, .65], // ratios of max closed or openened
+                [.90, .90, .85, .85, .65], // ratios of max closed or openened
                 0.25                       // ratio of backslide amt, before cancel
             )
         ]
