@@ -76,27 +76,44 @@ let originals;
 let currMaterial;
 let matMenu;
 
-function getMaterialsTab() {
+function getMaterialsTab(loadedmeshes) {
     enablePropertyControls(); // from rightPanel.js
 
-    // filter out Portal materials from entire list
+    // get the pbr materials from the loadedMeshes
     materials = [];
     originals = [];
     const matNames = [];
-    for (const mat of scene.materials) {
-        if (mat instanceof(BABYLON.PBRMaterial) &&
-           !mat.name.startsWith('PortalSys.') &&
-           !mat.name.startsWith('vr_controller') &&   // used by default controllers
-           !mat.name.startsWith('generic_trigger') && // used by device custom controllers
-            mat.name !=='skyBox' &&                   // used by sky box
-            mat.name !== 'default material') {        // default material is created by SceneLoader
-            materials.push(mat);
-            originals.push(new MatSettings(mat));
-            matNames.push(mat.name);
+    if (loadedmeshes) {
+        const matCandidates = []
+        for (const mesh of loadedmeshes) {
+            const mat = mesh.material;
+            if (mat instanceof(BABYLON.PBRMaterial)) {
+                matCandidates.push(mat);
+            } else if (mat instanceof(BABYLON.MultiMaterial)) {
+                for (const sub of mat.subMaterials) {
+                    if (sub instanceof(BABYLON.PBRMaterial)) {
+                        matCandidates.push(sub);
+                    }
+                }
+            }
         }
-    }
-    intensityCallback();
 
+        for (const cand of matCandidates) {
+            let found = false
+            for (const mat of materials) {
+                if (cand === mat || cand.name === mat.name) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                materials.push(cand);
+                originals.push(new MatSettings(cand));
+                matNames.push(cand.name);
+            }
+        }
+        intensityCallback();
+    }
     if (!materialsContainer) {
         materialsContainer = new XR_UIPortal.Container('Materials', XR_UIPortal.Panel.LAYOUT_VERTICAL);
     } else {

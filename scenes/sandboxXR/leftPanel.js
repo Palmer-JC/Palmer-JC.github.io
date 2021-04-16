@@ -48,7 +48,8 @@ function captureInfo(meshes, particleSystems, skeletons) {
         }
     }
     // needs to be before updateFileDetails, since stats used
-    getMaterialsTab();  // found in materialsTab.js
+    getMaterialsTab(loadedmeshes);  // found in materialsTab.js
+    mainTab.selectTabIdx(0);
 }
 
 function loadEnvFile() {
@@ -83,7 +84,7 @@ function makeLeftPanel(parentPanel) {
         cleanout();
         BABYLON.SceneLoader.ImportMesh('', './sample/', 'sampleMH.json', scene, (meshes, particleSystems, skeletons) =>{
             captureInfo(meshes, particleSystems, skeletons);
-            updateFileDetails('Sample MakeHuman');
+            updateFileDetails('Sample MakeHuman', 0, 0);
         });
     });
     topLine.addSubPanel(loadBtn);
@@ -124,7 +125,8 @@ function makeLeftPanel(parentPanel) {
     parentPanel.addSubPanel(fileDetailsPanel);
 }
 
-function updateFileDetails(fileName) {
+
+function updateFileDetails(fileName, rotation, height) {
     const dot = fileName.indexOf('.');
     modelName = (dot > 0) ? fileName.substring(0, dot) : fileName;
     modelLabelPanel.updateText(fileName);
@@ -148,7 +150,7 @@ function updateFileDetails(fileName) {
     valsContainer.addSubPanel(new XR_UIPortal.Label(getTKTris().toFixed(2))        ).horizontalAlign(XR_UIPortal.Panel.ALIGN_RIGHT).setLetterMaterial(valColor);
     valsContainer.addSubPanel(new XR_UIPortal.Label(getTKVerts().toFixed(2))       ).horizontalAlign(XR_UIPortal.Panel.ALIGN_RIGHT).setLetterMaterial(valColor);
 
-    upDownSlider = new XR_UIPortal.SliderPanel('Up/Down', -1.75, 1.75, 0, XR_UIPortal.Panel.LAYOUT_VERTICAL);
+    upDownSlider = new XR_UIPortal.SliderPanel('Up/Down', -1.75, 1.75, height, XR_UIPortal.Panel.LAYOUT_VERTICAL);
     upDownSlider.onChangeCallBack(heightCallback);
 
     tableContainer.addSubPanel(headerContainer);
@@ -156,7 +158,7 @@ function updateFileDetails(fileName) {
     tableContainer.addSubPanel(upDownSlider);
     fileDetailsPanel.addSubPanel(tableContainer);
 
-    rotationSlider = new XR_UIPortal.SliderPanel('Rotate', -Math.PI, Math.PI, 0);
+    rotationSlider = new XR_UIPortal.SliderPanel('Rotate', -Math.PI, Math.PI, rotation);
     rotationSlider.stretchHorizontal = true;
     rotationSlider.onChangeCallBack(rotateCallback);
     fileDetailsPanel.addSubPanel(rotationSlider);

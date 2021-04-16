@@ -69,6 +69,7 @@ function loadCamera(canvas) {
     }
 }
 //==============================================================================
+let mainTab;
 function loadPortal() {
     portal = XR_UIPortal.Portal.createInstance(scene, vr, ar);
 
@@ -82,7 +83,7 @@ function loadPortal() {
     if (justHands) return;
 
     XR_UIPortal.Label.DEFAULT_FONT_MODULE = 'Font2D';
-//    XR_UIPortal.System.CURRENT_FONT_MAT_ARRAY = XR_UIPortal.System.BLACK;
+//    XR_UIPortal.System.CURRENT_FONT_MAT = XR_UIPortal.System.BLACK;
     XR_UIPortal.System.makeRed();
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -110,8 +111,8 @@ function loadPortal() {
     portal.centerSurface.addSubPanel(titleContainer);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    const mainTab = new XR_UIPortal.TabStrip('main', ['Materials', 'Environment', 'Experiments'], portal.centerSurface);
+    mainTab = new XR_UIPortal.TabStrip('main', ['Materials', 'Environment', 'Experiments'], portal.centerSurface);
     mainTab.assignTab('Environment', getEnvironmentsTab());
-    mainTab.assignTab('Materials', getMaterialsTab(), true); // load after env, since uses intensity slider
+    mainTab.assignTab('Materials', getMaterialsTab(null), true); // load after env, since uses intensity slider
     mainTab.assignTab('Experiments',getExperiments());
 }
