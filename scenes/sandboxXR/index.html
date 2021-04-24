@@ -3,12 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Sandbox XR</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/5.0.0-alpha.15/babylon.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/5.0.0-alpha.18/babylon.js"></script>
     <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
-    <script src="https://preview.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
 
-    <script src="../../lib/QuakeCam.1.0.min.js"></script>
-    <script src="../../lib/XR-UIPortal.2.0.min.js"></script>
+    <script src="../../lib/XR-UIPortal.2.1.min.js"></script>
     <script src="../../lib/Font2D.min.js"></script>
     <script src="../../lib/Font3D.min.js"></script>
 
@@ -17,30 +15,60 @@
     <script src="./floor.js"></script>
 
     <script src="./leftPanel.js"></script>
+
     <script src="./rightPanel.js"></script>
+    <script src="./materialTabs/generalTab.js"></script>
+    <script src="./materialTabs/colorTab.js"></script>
+    <script src="./materialTabs/normalsTab.js"></script>
+    <script src="./materialTabs/roughnessTab.js"></script>
+    <script src="./materialTabs/parallaxTab.js"></script>
+    <script src="./materialTabs/alphaTab.js"></script>
 
     <script src="./materialsTab.js"></script>
     <script src="./environmentTab.js"></script>
-    <script src="./experimentsTab.js"></script>
+
+    <script src="./imagingProcessTab.js"></script>
+    <script src="./imagingProcessTabs/ipGeneralTab.js"></script>
+    <script src="./imagingProcessTabs/ipColorCurvesTab.js"></script>
+    <script src="./imagingProcessTabs/ipVignetteTab.js"></script>
+
     <script src="./armPanels.js"></script>
-    
+<!--
     <script src="./gesture/bulletInstance.js"></script>
     <script src="./gesture/triggerPull.js"></script>
-
+-->
     <style>
          html, body   { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
-         #renderCanvas{ width: 100%; height: 95%; }
+         #renderCanvas{ width: 100%; height: 100%; }
+         .wrapper {
+             display: flex;
+             flex-flow: col;
+             flex-wrap: wrap;
+             width: 100%;
+             height: 100%;
+             margin: 0;
+         }
+
+             .top {
+             width: 100%;
+             margin: 0;
+             }
+             .canvas {
+             width: 100%;
+             height: 95%;
+             margin: 0;
+             }
     </style>
 </head>
 <body>
-    <div>
+    <div class="top">
         <input type="file" id="assetFile" multiple accept=".babylon,.json,.glb" style="display:none" onchange="loadAssetFile()" >
         <button id="modelSelect">Open .BABYLON/.JSON or .GLB</button>
 
         <input type="file" id="envFile" multiple accept=".dds,.env,.hdr" style="display:none" onchange="loadEnvFile()">
         <button id="envSelect">Load Custom Environment Texture</button>
     </div>
-    <div>
+    <div class="canvas">
         <canvas id="renderCanvas"></canvas>
     </div>
 <script>
@@ -56,7 +84,18 @@ document.getElementById("envSelect").addEventListener("click", (e) => {
 }, false);
 
 //==============================================================================
-begin(false, false, false);
+let doesVR;
+let doesAR;
+
+// probably not likely a headset supports both, but need to check for both
+BABYLON.WebXRSessionManager.IsSessionSupportedAsync("immersive-vr").then((result) =>{
+    doesVR = result;
+    BABYLON.WebXRSessionManager.IsSessionSupportedAsync("immersive-ar").then((result2) =>{
+        doesAR = result2;
+
+        begin(doesVR, doesAR);
+    });
+});
 </script>
 </body>
 </html>

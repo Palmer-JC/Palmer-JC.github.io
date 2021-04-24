@@ -1,14 +1,9 @@
 let floor; // global scope, so a toggle button can hide it / show it
 function loadFloor() {
     // ground & material
-    const floorMat = new BABYLON.GridMaterial('PortalSys.floorMat', scene);
-    floorMat.majorUnitFrequency = 1;
-    floorMat.minorUnitVisibility = 0.1;
-    floorMat.gridRatio = 1.25;
-    floorMat.backFaceCulling = true;
-    floorMat.mainColor = new BABYLON.Color3(.45, .45, .45);
-    floorMat.lineColor = new BABYLON.Color3(.9, .9, .9);
-    floorMat.opacity = 1;
+    const floorMat = new BABYLON.PBRMaterial('PortalSys.floorMat', scene);
+    floorMat.emissiveColor = new BABYLON.Color3(.1, .1, .1);
+    floorMat.environmentIntensity = 0;
 
     floor = new BigCircle.Mesh('floor', scene);
     floor.material = floorMat;
@@ -50,5 +45,3 @@ function makeCircle(scaling, mat) {
 	mesh.material = mat;
     return mesh;
 }
-
-

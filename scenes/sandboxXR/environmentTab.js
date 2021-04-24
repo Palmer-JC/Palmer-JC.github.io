@@ -4,10 +4,13 @@
 const ENV_BASE_URL = '../../environments/';
 const skyboxScale = 100;
 const blur = 0;
+const skyBoxEmissiveColor = new BABYLON.Color3(.4, .5, .8);
+const blackColor = new BABYLON.Color3(0, 0, 0);
 let envMenu;
 let hdrSkybox;
 let envTextures = [];
 let sceneIntensitySlider;
+let skyboxToggle;
 
 function getEnvironmentsTab() {
     // pre-load everything
@@ -21,8 +24,8 @@ function getEnvironmentsTab() {
 
     hdrSkybox = scene.createDefaultSkybox(scene.environmentTexture, true, skyboxScale, blur);
     hdrSkybox.isPickable = false;
-    hdrSkybox.setEnabled(false);
-
+    hdrSkybox.material.environmentIntensity = 0;
+    hdrSkybox.material.emissiveColor = skyBoxEmissiveColor;
     const ret = new XR_UIPortal.Container('Environment', XR_UIPortal.Panel.LAYOUT_HORIZONTAL);
 
     envMenu = new XR_UIPortal.Menu(null, ['Urban Environment', 'Studio, 256px', 'Studio, 512px', 'Studio Panorama Radiance', 'Flower Road', 'XR-UIPortal (Internal)', 'Custom'], XR_UIPortal.Panel.LAYOUT_VERTICAL, 8, true);
@@ -49,14 +52,19 @@ function getEnvironmentsTab() {
     togglesContainer.addSubPanel(skyboxToggle);
 
     skyboxToggle.assignCallback(() => {
-        const selected = skyboxToggle.isSelected();
-        hdrSkybox.setEnabled(selected);
+        const mat = hdrSkybox.material;
+        if (skyboxToggle.isSelected() ) {
+            mat.environmentIntensity = 1;
+            mat.emissiveColor = blackColor;
+        } else {
+            mat.environmentIntensity = 0;
+            mat.emissiveColor = skyBoxEmissiveColor;
+        }
     });
 
     // - - - - - - - - - - - - - - -
     const floorToggle = new XR_UIPortal.Toggle('Show Floor', scene);
     floorToggle.setSelected(true); // cleaner if done before callback assignment
-//    floorToggle.stretchHorizontal = true;
     skyboxToggle.subsEqualShare[0] = true;
     togglesContainer.addSubPanel(floorToggle);
 

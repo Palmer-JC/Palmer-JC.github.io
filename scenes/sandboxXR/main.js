@@ -1,6 +1,5 @@
 let vr;
 let ar;
-let justHands;
 let isXRCapable;
 
 let canvas;
@@ -15,17 +14,15 @@ let xrHelper;
 const FpsFrequency = 50;
 let freqCounter = 0;
 
-function begin(doesVR, doesAR, noPortal) {
+function begin(doesVR, doesAR) {
     vr = doesVR;
     ar = doesAR;
-    justHands = noPortal;
     isXRCapable = vr || ar;
 
     canvas = document.getElementById("renderCanvas");
     engine = new BABYLON.Engine(canvas, true);
     scene = new BABYLON.Scene(engine);
     sceneInstru = new BABYLON.SceneInstrumentation(scene);
-    if (!ar) scene.clearColor = new BABYLON.Color3(.4, .5, .8);
 
     loadFloor();
     loadPortal();
@@ -59,9 +56,6 @@ function loadCamera(canvas) {
         BABYLON.WebXRDefaultExperience.CreateAsync(scene, options).then((defaultExperience) => {  //
             xrHelper = defaultExperience.baseExperience;
             portal.xrEnable(defaultExperience); // starts hands feature
-
-       //    this.pbrMonitor.begin(defaultExperience.baseExperience.camera);
-            QuakeC.XRSubCamera.Install(xrHelper);
         });
     } else {
         camera.attachControl(canvas, true);
@@ -79,8 +73,6 @@ function loadPortal() {
         makeLeftArmPanel (portal.leftArmSurface);
         makeRightArmPanel(portal.rightArmSurface);
     }
-
-    if (justHands) return;
 
     XR_UIPortal.Label.DEFAULT_FONT_MODULE = 'Font2D';
 //    XR_UIPortal.System.CURRENT_FONT_MAT = XR_UIPortal.System.BLACK;
@@ -111,8 +103,8 @@ function loadPortal() {
     portal.centerSurface.addSubPanel(titleContainer);
 
     // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-    mainTab = new XR_UIPortal.TabStrip('main', ['Materials', 'Environment', 'Experiments'], portal.centerSurface);
+    mainTab = new XR_UIPortal.TabStrip('main', ['Materials', 'Environment', 'Image Processing'], portal.centerSurface);
     mainTab.assignTab('Environment', getEnvironmentsTab());
     mainTab.assignTab('Materials', getMaterialsTab(null), true); // load after env, since uses intensity slider
-    mainTab.assignTab('Experiments',getExperiments());
+    mainTab.assignTab('Image Processing',getImagingProcessTab());
 }
