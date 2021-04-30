@@ -4,10 +4,13 @@ let intensitySlider;
 let metallicSlider;
 
 let backFaceCullingToggle;
-let twoSidedLightingToggle;
-let disableLightingToggle;
-let useHorizonOcclusionToggle;
 let useRadianceOcclusionToggle;
+let forceIrradianceInFragmentToggle;
+let disableLightingToggle;
+
+let twoSidedLightingToggle;
+let useHorizonOcclusionToggle;
+let useRadianceOverAlphaToggle;
 
 function makeGeneralTab() {
     const ret = new XR_UIPortal.Container('generalTab', XR_UIPortal.Panel.LAYOUT_VERTICAL);
@@ -24,39 +27,52 @@ function makeGeneralTab() {
     ret.addSubPanel(metallicSlider);
 
     // - - - - - - - - - - - - - - -
-    const grp = new XR_UIPortal.Container('generalGrp', XR_UIPortal.Panel.LAYOUT_VERTICAL);
+    const columnBank = new XR_UIPortal.Container('gColBank', XR_UIPortal.Panel.LAYOUT_HORIZONTAL);
+    columnBank.stretch(true, true);
+
+    const col1 = new XR_UIPortal.Container('generalGrp', XR_UIPortal.Panel.LAYOUT_VERTICAL);
 
     backFaceCullingToggle = new XR_UIPortal.Toggle('Back Face Culling', scene);
-    backFaceCullingToggle.verticalMargin = 0;
     backFaceCullingToggle.stretchHorizontal = true;
-    grp.addSubPanel(backFaceCullingToggle);
+    col1.addSubPanel(backFaceCullingToggle);
     backFaceCullingToggle.assignCallback(() => { currMaterial.backFaceCulling = backFaceCullingToggle.isSelected(); } );
 
-    twoSidedLightingToggle = new XR_UIPortal.Toggle('2 Sided Lighting', scene);
-    twoSidedLightingToggle.verticalMargin = 0;
-    twoSidedLightingToggle.stretchHorizontal = true;
-    grp.addSubPanel(twoSidedLightingToggle);
-    twoSidedLightingToggle.assignCallback(() => { currMaterial.twoSidedLighting = twoSidedLightingToggle.isSelected(); } );
+    useRadianceOcclusionToggle = new XR_UIPortal.Toggle('Radiance Occlusion', scene);
+    useRadianceOcclusionToggle.stretchHorizontal = true;
+    col1.addSubPanel(useRadianceOcclusionToggle);
+    useRadianceOcclusionToggle.assignCallback(() => { currMaterial.useRadianceOcclusion = useRadianceOcclusionToggle.isSelected(); } );
+
+    forceIrradianceInFragmentToggle = new XR_UIPortal.Toggle('Irradiance In Fragment', scene);
+    forceIrradianceInFragmentToggle.stretchHorizontal = true;
+    col1.addSubPanel(forceIrradianceInFragmentToggle);
+    forceIrradianceInFragmentToggle.assignCallback(() => { currMaterial.forceIrradianceInFragment = forceIrradianceInFragmentToggle.isSelected(); } );
 
     disableLightingToggle = new XR_UIPortal.Toggle('Disable Lights', scene);
-    disableLightingToggle.verticalMargin = 0;
     disableLightingToggle.stretchHorizontal = true;
-    grp.addSubPanel(disableLightingToggle);
+    col1.addSubPanel(disableLightingToggle);
     disableLightingToggle.assignCallback(() => { currMaterial.disableLighting = disableLightingToggle.isSelected(); } );
 
+    columnBank.addSubPanel(col1);
+
+    // - - - - - - - - - - - - - - -
+    const col2 = new XR_UIPortal.Container('generalGrp', XR_UIPortal.Panel.LAYOUT_VERTICAL);
+    twoSidedLightingToggle = new XR_UIPortal.Toggle('2 Sided Lighting', scene);
+    twoSidedLightingToggle.stretchHorizontal = true;
+    col2.addSubPanel(twoSidedLightingToggle);
+    twoSidedLightingToggle.assignCallback(() => { currMaterial.twoSidedLighting = twoSidedLightingToggle.isSelected(); } );
+
     useHorizonOcclusionToggle = new XR_UIPortal.Toggle('Horizon Occlusion', scene);
-    useHorizonOcclusionToggle.verticalMargin = 0;
     useHorizonOcclusionToggle.stretchHorizontal = true;
-    grp.addSubPanel(useHorizonOcclusionToggle);
+    col2.addSubPanel(useHorizonOcclusionToggle);
     useHorizonOcclusionToggle.assignCallback(() => { currMaterial.useHorizonOcclusion = useHorizonOcclusionToggle.isSelected(); } );
 
-    useRadianceOcclusionToggle = new XR_UIPortal.Toggle('Radiance Occlusion', scene);
-    useRadianceOcclusionToggle.verticalMargin = 0;
-    useRadianceOcclusionToggle.stretchHorizontal = true;
-    grp.addSubPanel(useRadianceOcclusionToggle);
-    useRadianceOcclusionToggle.assignCallback(() => { currMaterial.useRadianceOcclusion = useRadianceOcclusionToggle.isSelected(); } );
-    ret.addSubPanel(grp);
+    useRadianceOverAlphaToggle = new XR_UIPortal.Toggle('Radiance Over Alpha', scene);
+    useRadianceOverAlphaToggle.stretchHorizontal = true;
+    col2.addSubPanel(useRadianceOverAlphaToggle);
+    useRadianceOverAlphaToggle.assignCallback(() => { currMaterial.useRadianceOverAlpha = useRadianceOverAlphaToggle.isSelected(); } );
 
+    columnBank.addSubPanel(col2);
+    ret.addSubPanel(columnBank);
     // - - - - - - - - - - - - - - -
     resetGeneralBtn = new XR_UIPortal.Button('Reset', scene);
     resetGeneralBtn.vertAlign(XR_UIPortal.Panel.ALIGN_BOTTOM);
@@ -74,11 +90,15 @@ function makeGeneralTab() {
 function setGeneral() {
     intensitySlider.value = currMaterial.environmentIntensity;
     metallicSlider .value = currMaterial.metallic;
+
     backFaceCullingToggle.setSelected(currMaterial.backFaceCulling);
-    twoSidedLightingToggle.setSelected(currMaterial.twoSidedLighting);
-    disableLightingToggle.setSelected(currMaterial.disableLighting);
     useHorizonOcclusionToggle.setSelected(currMaterial.useHorizonOcclusion);
+    forceIrradianceInFragmentToggle.setSelected(currMaterial.forceIrradianceInFragment);
+    disableLightingToggle.setSelected(currMaterial.disableLighting);
+
+    twoSidedLightingToggle.setSelected(currMaterial.twoSidedLighting);
     useRadianceOcclusionToggle.setSelected(currMaterial.useRadianceOcclusion);
+    useRadianceOverAlphaToggle.setSelected(currMaterial.useRadianceOverAlpha);
 }
 
 function enableGeneral(enabled) {
@@ -86,9 +106,13 @@ function enableGeneral(enabled) {
 
     intensitySlider.enableSlider(enabled);
     metallicSlider .enableSlider(enabled);
+
     backFaceCullingToggle.enableToggle(enabled);
-    twoSidedLightingToggle.enableToggle(enabled);
-    disableLightingToggle.enableToggle(enabled);
     useHorizonOcclusionToggle.enableToggle(enabled);
+    forceIrradianceInFragmentToggle.enableToggle(enabled);
+    disableLightingToggle.enableToggle(enabled);
+
+    twoSidedLightingToggle.enableToggle(enabled);
     useRadianceOcclusionToggle.enableToggle(enabled);
+    useRadianceOverAlphaToggle.enableToggle(enabled);
 }

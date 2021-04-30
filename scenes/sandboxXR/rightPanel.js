@@ -20,13 +20,12 @@ function makeRightPanel(parentPanel) {
 
     parentPanel.addSubPanel(topLine);
     // - - - - - - - - - - - - - - -
-    const propsTab = new XR_UIPortal.TabStrip('matPropsTab', ['General', 'Color', 'Normals', 'Roughness', 'Parallax', 'Alpha'], parentPanel, XR_UIPortal.Panel.LAYOUT_VERTICAL, true);
+    const propsTab = new XR_UIPortal.TabStrip('matPropsTab', ['General', 'Color', 'Normals', 'Roughness', 'Parallax'], parentPanel, XR_UIPortal.Panel.LAYOUT_VERTICAL, true);
     propsTab.assignTab('General', makeGeneralTab(), true);
     propsTab.assignTab('Color', makeColorTab());
     propsTab.assignTab('Normals', makeNormalsTab());
     propsTab.assignTab('Roughness', makeRoughnessTab());
     propsTab.assignTab('Parallax', makeParallaxTab());
-    propsTab.assignTab('Alpha',makeMatToggles());
     enablePropertyControls(false);
 }
 
@@ -38,7 +37,6 @@ function setPropertyControls() {
     setNormals();
     setRoughness();
     setParallax();
-    setAlpha();
 }
 
 function enablePropertyControls(enabled) {
@@ -49,5 +47,4 @@ function enablePropertyControls(enabled) {
     enableNormals(enabled);
     enableRoughness(enabled);
     enableParallax(enabled);
-    enableAlpha(enabled);
 }

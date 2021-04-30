@@ -38,8 +38,6 @@ class MatSettings {
         this.enableSpecularAntiAliasing = material.enableSpecularAntiAliasing;
         this.useHorizonOcclusion = material.useHorizonOcclusion;
         this.useRadianceOcclusion = material.useRadianceOcclusion;
-        this.useAlphaFresnel = material.useAlphaFresnel;
-        this.useLinearAlphaFresnel = material.useLinearAlphaFresnel;
         this.forceNormalForward = material.forceNormalForward;
         this.invertNormalMapX = material.invertNormalMapX;
         this.invertNormalMapY = material.invertNormalMapY;
@@ -86,8 +84,6 @@ class MatSettings {
         if (this.material.enableSpecularAntiAliasing !== this.enableSpecularAntiAliasing) ret += `\n\tenableSpecularAntiAliasing: ${this.material.enableSpecularAntiAliasing}`;
         if (this.material.useHorizonOcclusion !== this.useHorizonOcclusion) ret += `\n\tuseHorizonOcclusion: ${this.material.useHorizonOcclusion}`;
         if (this.material.useRadianceOcclusion !== this.useRadianceOcclusion) ret += `\n\tuseRadianceOcclusion: ${this.material.useRadianceOcclusion}`;
-        if (this.material.useAlphaFresnel !== this.useAlphaFresnel) ret += `\n\tuseAlphaFresnel: ${this.material.useAlphaFresnel}`;
-        if (this.material.useLinearAlphaFresnel !== this.useLinearAlphaFresnel) ret += `\n\tuseLinearAlphaFresnel: ${this.material.useLinearAlphaFresnel}`;
         if (this.material.forceNormalForward !== this.forceNormalForward) ret += `\n\tforceNormalForward: ${this.material.forceNormalForward}`;
         if (this.material.invertNormalMapX !== this.invertNormalMapX) ret += `\n\tinvertNormalMapX: ${this.material.invertNormalMapX}`;
         if (this.material.invertNormalMapY !== this.invertNormalMapY) ret += `\n\tinvertNormalMapY: ${this.material.invertNormalMapY}`;
@@ -113,9 +109,13 @@ class MatSettings {
         this.material.disableLighting = this.disableLighting;
         this.material.useHorizonOcclusion = this.useHorizonOcclusion;
         this.material.useRadianceOcclusion = this.useRadianceOcclusion;
+        this.material.useRadianceOverAlpha = this.useRadianceOverAlpha;
+        this.material.forceIrradianceInFragment = this.forceIrradianceInFragment;
     }
 
     resetColor() {
+        this.material.albedoColor.copyFrom(this.albedoColor);
+
         this.material.subSurface.isTranslucencyEnabled = this.subSurfaceIsTranslucencyEnabled;
         this.material.subSurface.translucencyIntensity = this.subSurfaceTranslucencyIntensity;
         this.material.subSurface.tintColor.copyFrom(this.subSurfaceTintColor);
@@ -146,13 +146,6 @@ class MatSettings {
         this.material.parallaxScaleBias = this.parallaxScaleBias;
         this.material.useParallax = this.useParallax;
         this.material.useParallaxOcclusion = this.useParallaxOcclusion;
-    }
-
-    resetAlpha() {
-        this.material.useRadianceOverAlpha = this.useRadianceOverAlpha;
-        this.material.forceIrradianceInFragment = this.forceIrradianceInFragment;
-        this.material.useAlphaFresnel = this.useAlphaFresnel;
-        this.material.useLinearAlphaFresnel = this.useLinearAlphaFresnel;
     }
 }
 //==============================================================================
@@ -274,15 +267,6 @@ function resetCurrParallax() {
         orig.resetParallax();
         setParallax();
         enableParallax(true);
-    }
-}
-
-function resetCurrAlpha() {
-    const orig = getCurrMatSettings();
-    if (orig) {
-        orig.resetAlpha();
-        setAlpha();
-        enableAlpha(true);
     }
 }
 
