@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Camera Shake</title>
+    <script src="https://preview.babylonjs.com/babylon.js"></script>
+    <script src="https://preview.babylonjs.com/loaders/babylonjs.loaders.min.js"></script>
+    <script src="https://cdn.babylonjs.com/materialsLibrary/babylon.gridMaterial.min.js"></script>
+
+    <script src="../lib/QuakeCam.1.0.min.js"></script>
+    <style>
+         html, body   { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; }
+         #renderCanvas{ width: 100%; height: 100%; }
+    </style>
+</head>
+<body>
+    <canvas id="renderCanvas"></canvas>
+<script>
+//==============================================================================
+    canvas = document.getElementById("renderCanvas");
+    engine = new BABYLON.Engine(canvas, true);
+    scene = new BABYLON.Scene(engine);
+
+    const distance = 3.5;
+    const camera = new BABYLON.ArcRotateCamera("XR_Fallback", -Math.PI / 2, (Math.PI / 2) - .15, distance, new BABYLON.Vector3(0, 1, 0), scene);
+    camera.wheelPrecision = 175;
+    camera.minZ = 0.001;
+    camera.attachControl(canvas, true);
+
+    // create a ground
+    const ground = BABYLON.MeshBuilder.CreateGround("ground", {width: 50, height:50}, scene);
+    const floorMat = new BABYLON.GridMaterial('floorMat', scene);
+    floorMat.majorUnitFrequency = 0.5;
+    floorMat.minorUnitVisibility = 0.1;
+    floorMat.gridRatio = 1.25;
+    floorMat.backFaceCulling = true;
+    floorMat.mainColor = new BABYLON.Color3(1, 1, 1);
+    floorMat.lineColor = new BABYLON.Color3(0, 0, 0);
+    floorMat.opacity = 1;
+    ground.material = floorMat;
+
+    const options = {
+        uiOptions: {sessionMode: 'immersive-vr'},
+        floorMeshes: [ground]
+    };
+    BABYLON.WebXRDefaultExperience.CreateAsync(scene, options).then((defaultExperience) => {
+        xrHelper = defaultExperience.baseExperience;
+        QuakeC.XRSubCamera.Install(xrHelper);
+        QuakeC.XRSubCamera.PosTolerance = [0, 0, 0];
+        QuakeC.XRSubCamera.RotTolerance = [0, 0, 0, 0];
+
+        defaultExperience.input.onControllerAddedObservable.add((controller) => {
+            controller.onMotionControllerInitObservable.add((motionController) =>{
+                const isRight = motionController.handedness === 'right';
+                if (isRight) {
+                    const aButton = motionController.getComponentOfType(BABYLON.WebXRControllerComponent.BUTTON_TYPE);
+                    aButton.onButtonStateChangedObservable.add((eventData, eventState) => {
+                        if (eventData.pressed) {
+                            QuakeC.XRSubCamera.Freeze = true;
+                        } else {
+                            QuakeC.XRSubCamera.Freeze = false;
+                        }
+                    });
+                }
+            });
+        });
+
+    });
+
+    engine.runRenderLoop(() => {
+        scene.render();
+    });
+
+</script>
+</body>
+</html>
