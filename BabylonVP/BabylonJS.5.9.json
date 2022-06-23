@@ -1,0 +1,307 @@
+{
+    "AsOfVersion": 5.9,
+
+    "Engine": {
+        "antialias"         : { "name": "antialias"         , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "enables antialiasing" } ,
+        "options"           : { "name": "options"           , "type": "OBJECT" , "default": null , "appeared": 5.0, "desc": "defines further options to be sent to the getContext() function" } ,
+        "adaptToDeviceRatio": { "name": "adaptToDeviceRatio", "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "defines whether to adapt to the device's viewport characteristics" }
+    },
+
+    "EngineOptions": {
+        "limitDeviceRatio":             { "name": "limitDeviceRatio"            , "type": "NUMBER" , "default": null , "appeared": 5.0, "desc": "Defines if the engine should no exceed a specified device ratio" },
+        "disableWebGL2Support":         { "name": "disableWebGL2Support"        , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines if webgl2 should be turned off even if supported" },
+        "audioEngine":                  { "name": "audioEngine"                 , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines if webaudio should be initialized as well" },
+        "audioEngineOptions":           { "name": "audioEngineOptions"          , "type": "OBJECT" , "default": null , "appeared": 5.0, "desc": "NOT APPLICABLE to Babylon VP; Specifies options for the audio engine" } ,
+        "deterministicLockstep":        { "name": "deterministicLockstep"       , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines if animations should run using a deterministic lock step" } ,
+        "lockstepMaxSteps":             { "name": "lockstepMaxSteps"            , "type": "NUMBER" , "default": null , "appeared": 5.0, "desc": "Defines the maximum steps to use with deterministic lock step mode" } ,
+        "timeStep":                     { "name": "timeStep"                    , "type": "NUMBER" , "default": 0    , "appeared": 5.0, "desc": "Defines the seconds between each deterministic lock step" } ,
+        "doNotHandleContextLost":       { "name": "doNotHandleContextLost"      , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines that engine should ignore context lost events" } ,
+        "doNotHandleTouchAction":       { "name": "doNotHandleTouchAction"      , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines that engine should ignore modifying touch action attribute and style" } ,
+        "useHighPrecisionFloats":       { "name": "useHighPrecisionFloats"      , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines that engine should compile shaders with high precision floats (if supported)." } ,
+        "xrCompatible":                 { "name": "xrCompatible"                , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Make the canvas XR Compatible for XR sessions" } ,
+        "useHighPrecisionMatrix":       { "name": "useHighPrecisionMatrix"      , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Make the matrix computations to be performed in 64 bits instead of 32 bits" } ,
+        "failIfMajorPerformanceCaveat": { "name": "failIfMajorPerformanceCaveat", "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Will prevent the system from falling back to software implementation if a hardware device cannot be created" } ,
+        "adaptToDeviceRatio":           { "name": "adaptToDeviceRatio"          , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "Defines whether to adapt to the device's viewport characteristics" } ,
+        "forceSRGBBufferSupportState":  { "name": "forceSRGBBufferSupportState" , "type": "BOOLEAN", "default": false, "appeared": 5.0, "desc": "If sRGB Buffer support is not set during construction, use this value to force a specific state.  Ignored for NativeEngine and WebGPUEngine" }
+    },
+
+    "audioEngineOptions": {
+        "audioContext":     { "name": "audioContext"    , "type": "OBJECT" , "default": null , "appeared": 5.0, "desc": "Specifies an existing Audio Context for the audio engine" },
+        "audioDestination": { "name": "audioDestination", "type": "OBJECT" , "default": null , "appeared": 5.0, "desc": "Specifies a destination node for the audio engine" }
+    },
+
+    "SceneOptions": {
+        "useGeometryUniqueIdsMap": { "name": "useGeometryUniqueIdsMap", "type": "BOOLEAN" , "default": true , "appeared": 5.0, "desc": "Defines that scene should keep up-to-date a map of geometry to enable fast look-up by uniqueId.  It will improve performance when the number of geometries becomes important." },
+        "useMaterialMeshMap":      { "name": "useMaterialMeshMap"     , "type": "BOOLEAN" , "default": true , "appeared": 5.0, "desc": "Defines that each material of the scene should keep up-to-date a map of referencing meshes for fast disposing.  It will improve performance when the number of mesh becomes important, but might consume a bit more memory." },
+        "useClonedMeshMap":        { "name": "useClonedMeshMap"       , "type": "BOOLEAN" , "default": true , "appeared": 5.0, "desc": "Defines that each mesh of the scene should keep up-to-date a map of referencing cloned meshes for fast disposing.  It will improve performance when the number of mesh becomes important, but might consume a bit more memory." },
+        "virtual":                 { "name": "virtual"                , "type": "BOOLEAN" , "default": false, "appeared": 5.0, "desc": "Defines if the creation of the scene should impact the engine (Eg. UtilityLayer's scene)." }
+    },
+
+    "JsFiles": {
+        "Core":                { "moduleNm": "BJS-CORE"   , "backVersions": true , "readable": "babylon.max.js"                                           , "minimized": "babylon.js" },
+        "Advanced Materials":  { "moduleNm": "BJS-MAT"    , "backVersions": false, "readable": "materialsLibrary/babylonjs.materials.js"                  , "minimized": "materialsLibrary/babylonjs.materials.min.js" },
+        "Loaders":             { "moduleNm": "BJS-LOAD"   , "backVersions": false, "readable": "loaders/babylonjs.loaders.js"                             , "minimized": "loaders/babylonjs.loaders.min.js" },
+        "Post Processes":      { "moduleNm": "BJS-POST"   , "backVersions": false, "readable": "postProcessesLibrary/babylonjs.postProcess.js"            , "minimized": "postProcessesLibrary/babylonjs.postProcess.min.js" },
+        "Procedural Textures": { "moduleNm": "BJS-TEX"    , "backVersions": false, "readable": "proceduralTexturesLibrary/babylonjs.proceduralTextures.js", "minimized": "proceduralTexturesLibrary/babylonjs.proceduralTextures.min.js" },
+        "Serializers":         { "moduleNm": "BJS-SERIAL" , "backVersions": false, "readable": "serializers/babylonjs.serializers.js"                     , "minimized": "serializers/babylonjs.serializers.min.js" },
+        "GUI":                 { "moduleNm": "BJS-GUI"    , "backVersions": false, "readable": "gui/babylon.gui.js"                                       , "minimized": "gui/babylon.gui.min.js" },
+        "Inspector":           { "moduleNm": "BJS-INSPECT", "backVersions": false, "readable": "inspector/babylon.inspector.bundle.max.js"                , "minimized": "inspector/babylon.inspector.bundle.js" },
+        "Viewer":              { "moduleNm": "BJS-VIEWR"  , "backVersions": false, "readable": "viewer/babylon.viewer.max.js"                             , "minimized": "viewer/babylon.viewer.js" },
+        "Cannon Phys Engine":  { "moduleNm": "CANNON"     , "backVersions": false, "readable": null                                                       , "minimized": "cannon.js" },
+        "Oimo Phys Engine":    { "moduleNm": "OIMO"       , "backVersions": false, "readable": null                                                       , "minimized": "Oimo.js" },
+        "Ammo Phys Engine":    { "moduleNm": "AMMO"       , "backVersions": false, "readable": null                                                       , "minimized": "ammo.js" }
+    },
+
+    "CDNs": {
+        "CDN":          "cdn.babylon.com",
+        "Preview":      "preview.babylon.com",
+        "backVersions": "cdnjs.cloudflare.com/ajax/libs/babylonjs"
+    },
+
+    "versions": [
+        "5.9.0"
+    ],
+    
+    "defaultSceneClass" : {
+        "name"  : "BVP.Scene",
+        "source": "class BVP.Scene extends BABYLON.Scene { isReady() { return super.isReady() && BVP.AllRequiredAreReady(); } }"
+    },
+
+    "constants": {
+        "impostorType" : { "type": "ENUM", "prefix": "BABYLON.PhysicsImpostor.",
+            "enum": ["NoImpostor|SphereImpostor|BoxImpostor|PlaneImpostor|MeshImpostor|CapsuleImpostor|CylinderImpostor|ParticleImpostor|HeightmapImpostor|ConvexHullImpostor|CustomImpostor|RopeImpostor|ClothImpostor|SoftbodyImpostor"],
+        "XRHandedness" : { "type": "ENUM", "enum": ["none|left|right"]}
+    },
+
+    "XR": {
+        "features": {
+            "anchor sys":                       { "class" : "WebXRAnchorSystem"                 , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#anchors", "spec": "https://github.com/immersive-web/anchors/", "desc": "An implementation of the anchor system for WebXR" },
+            "background remover":               { "class" : "WebXRBackgroundRemover"            , "Ar_Vr" : "A" , "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#background-remover", "spec": "", "desc": "A module that will automatically disable background meshes when entering AR and will enable them when leaving AR." },
+            "movement using controllers":       { "class" : "WebXRControllerMovement"           , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/WebXRSelectedFeatures#movement-module", "spec": "", "desc": "Allow a user to move around and rotate in the scene using the input of the attached controllers." },
+            "physics Imposter for controllers": { "class" : "WebXRControllerPhysics"            , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "", "spec": "", "desc": "Add physics impostor to your webxr controllers, including naive calculation of their linear and angular velocity." },
+            "controller pointer selection":     { "class" : "WebXRControllerPointerSelection"   , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : true , "doc": "", "spec": "", "desc": "A module that will enable pointer selection for motion controllers of XR Input Sources" },
+            "teleportation":                    { "class" : "WebXRMotionControllerTeleportation", "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/WebXRSelectedFeatures#teleportation-module", "spec": "", "desc": "A teleportation feature to be used with WebXR-enabled motion controllers.  When enabled and attached, the feature will allow a user to move around and rotate in the scene using the input of the attached controllers." },
+            "DOM overlay":                      { "class" : "WebXRDomOverlay"                   , "Ar_Vr" : "AV", "Browser_Native" : "B" , "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#dom-overlay", "spec": "https://immersive-web.github.io/dom-overlays/", "desc": "DOM Overlay Feature" },
+            "eye tracking":                     { "class" : "WebXREyeTracking"                  , "Ar_Vr" : "AV", "Browser_Native" : "N" , "reqd" : false, "doc": "", "spec": "", "desc": "WebXR Eye Tracking feature grabs eye data from the device and provides it in an easy-access format. Currently only enabled for BabylonNative applications." },
+            "feature point system":             { "class" : "WebXRFeaturePointSystem"           , "Ar_Vr" : "AV", "Browser_Native" : "N" , "reqd" : false, "doc": "", "spec": "", "desc": "The feature point system is used to detect feature points from real world geometry.  This feature is currently experimental and only supported on BabylonNative" },
+            "hand tracking":                    { "class" : "WebXRHandTracking"                 , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/WebXRSelectedFeatures#hand-tracking", "spec": "https://immersive-web.github.io/webxr-hand-input/", "desc": "WebXR Hand Joint tracking feature, available for selected browsers and devices" },
+            "hit test (or Ray-casting)":        { "class" : "WebXRHitTest"                      , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#hit-test", "spec": "", "desc": "Hit test (or Ray-casting) is used to interact with the real world." },
+            "image tracking":                   { "class" : "WebXRImageTracking"                , "Ar_Vr" : "A" , "Browser_Native" : "BN", "reqd" : false, "doc": "", "spec": "", "desc": "Image tracking for immersive AR sessions.  Providing a list of images and their estimated widths will enable tracking those images in the real world." },
+            "Layers (multi view)":              { "class" : "WebXRLayers"                       , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "", "spec": "https://immersive-web.github.io/layers/", "desc": "Exposes the WebXR Layers API." },
+            "light estimation":                 { "class" : "WebXRLightEstimation"              , "Ar_Vr" : "A" , "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#webxr-light-estimation", "spec": "https://immersive-web.github.io/lighting-estimation/", "desc": "Light Estimation Feature" },
+            "real world mesh detector":         { "class" : "WebXRMeshDetector"                 , "Ar_Vr" : "A" , "Browser_Native" : "N" , "reqd" : false, "doc": "", "spec": "", "desc": "The mesh detector is used to detect meshes in the real world when in AR." },
+            "near interaction":                 { "class" : "WebXRNearInteraction"              , "Ar_Vr" : "AV", "Browser_Native" : "BN", "reqd" : false, "doc": "", "spec": "", "desc": "A module that will enable near interaction near interaction for hands and motion controllers of XR Input Sources" },
+            "real world plane detector":        { "class" : "WebXRPlaneDetector"                , "Ar_Vr" : "A" , "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/webXRARFeatures#plane-detection", "spec": "", "desc": "The plane detector is used to detect planes in the real world when in AR" },
+            "walking locomotion":               { "class" : "WebXRWalkingLocomotion"            , "Ar_Vr" : "V" , "Browser_Native" : "BN", "reqd" : false, "doc": "https://doc.babylonjs.com/divingDeeper/webXR/WebXRSelectedFeatures#walking-locomotion", "spec": "", "desc": "A module that will enable VR locomotion by detecting when the user walks in place." }
+        },
+
+        "featureOptions": {
+            "anchor sys": {
+                "doNotRemoveAnchorsOnSessionEnded" : { "type": "BOOLEAN", "default": false, "desc": "If set to true a reference of the created anchors will be kept until the next session starts. If not defined, anchors will be removed from the array when the feature is detached or the session ended." },
+
+                "notSupportable" : "worldParentNode"
+            },
+
+            "background remover": {
+                "ignoreEnvironmentHelper" : { "type": "BOOLEAN", "default": false, "desc": "Don't disable the environment helper." },
+
+                "environmentHelperRemovalFlags": {
+                    "desc": "Flags to configure the removal of the environment helper.",
+                    "skyBox" : { "type": "BOOLEAN", "default": false, "desc": "Should the skybox be removed?" },
+                    "ground" : { "type": "BOOLEAN", "default": false, "desc": "Should the ground be removed?" }
+                },
+
+                "notSupportable" : "backgroundMeshes"
+            },
+
+            "movement using controllers": {
+                "movementEnabled" :                      { "type": "BOOLEAN", "default": false, "desc": "Is movement enabled" },
+                "movementOrientationFollowsViewerPose" : { "type": "BOOLEAN", "default": false, "desc": "Camera direction follows view pose and movement by default will move independently of the viewer's pose." },
+                "movementSpeed" :                        { "type": "NUMBER" , "default": 1    , "desc": "Movement speed factor" },
+                "movementThreshold" :                    { "type": "NUMBER" , "default": 0    , "desc": "Minimum threshold the controller's thumbstick/touchpad must pass before being recognized for movement (avoids jitter/unintentional movement)" },
+                "rotationEnabled" :                      { "type": "BOOLEAN", "default": false, "desc": "Is rotation enabled" },
+                "rotationThreshold" :                    { "type": "NUMBER" , "default": 1    , "desc": "Minimum threshold the controller's thumstick/touchpad must pass before being recognized for rotation (avoids jitter/unintentional rotation)" },
+                "rotationSpeed" :                        { "type": "NUMBER" , "default": 1    , "desc": "Rotation speed factor" },
+
+                "notSupportable" : "customRegistrationConfigurations, xrInput"
+            },
+
+            "physics Imposter for controllers": {
+                "enableHeadsetImpostor" : { "type": "BOOLEAN", "default": false, "desc": "Should the headset get its own impostor" },
+
+                "headsetImpostorParams":  {
+                    "desc": "Optional parameters for the headset impostor" ,
+                    "impostorType": { "type": "CONSTANT", "default": "SphereImpostor", "desc": "The type of impostor to create" },
+                    "impostorSize": {
+                        "desc": "the size of the impostor in cm" ,
+                        "width":  { "type": "NUMBER", "default": 10, "desc": "" },
+                        "height": { "type": "NUMBER", "default": 10, "desc": "" },
+                        "depth":  { "type": "NUMBER", "default": 10, "desc": "" }
+                    },
+                    "friction":    { "type": "NUMBER" , "default": null, "desc": "Friction definitions" },
+                    "restitution": { "type": "NUMBER" , "default": null, "desc": "Restitution" }
+                },
+
+                "physicsProperties":  {
+                    "desc": "The physics properties of the future impostors" ,
+                    "useControllerMesh" : { "type": "BOOLEAN", "default": false, "desc": "If set to true, a mesh impostor will be created when the controller mesh was loaded" },
+                    "impostorType":       { "type": "CONSTANT", "default": "SphereImpostor", "desc": "The type of impostor to create" },
+                    "impostorSize": {
+                        "desc": "the size of the impostor in cm" ,
+                        "width":  { "type": "NUMBER", "default": 10, "desc": "" },
+                        "height": { "type": "NUMBER", "default": 10, "desc": "" },
+                        "depth":  { "type": "NUMBER", "default": 10, "desc": "" }
+                    },
+                    "friction":    { "type": "NUMBER" , "default": null, "desc": "Friction definitions" },
+                    "restitution": { "type": "NUMBER" , "default": null, "desc": "Restitution" }
+                },
+
+                "notSupportable" : "WebXRInput"
+            },
+
+            "controller pointer selection": {
+                "disablePointerUpOnTouchOut":      { "type": "BOOLEAN", "default": false, "desc": "Disable the pointer up event when the xr controller in screen and gaze mode is disposed." },
+                "forceGazeMode":                   { "type": "BOOLEAN", "default": false, "desc": "For gaze mode for tracked-pointer / controllers (time to select instead of button press)." },
+                "gazeModePointerMovedFactor":      { "type": "NUMBER" , "default": 1    , "desc": "How sensitive should the gaze mode be when checking if the pointer moved to start a new countdown to the pointer down event." },
+                "overrideButtonId":                { "type": "STRING" , "default": null , "desc": "Different button type to use instead of the main component" },
+                "renderingGroupId":                { "type": "NUMBER" , "default": null , "desc": "use this rendering group id for the meshes" },
+                "timeToSelect":                    { "type": "NUMBER" , "default": 3000 , "desc": "Milliseconds it takes between pick found something to a pointer down event. Used in gaze modes. Tracked pointer uses the trigger, screen uses touch events" },
+                "useUtilityLayer":                 { "type": "BOOLEAN", "default": false, "desc": "Should meshes created here be added to a utility layer or the main scene." },
+                "disableScenePointerVectorUpdate": { "type": "BOOLEAN", "default": false, "desc": "Should the scene pointerX and pointerY update be disabled.  This is required for fullscreen AR GUI, but might slow down other experiences.  Disable in VR, if not needed. The first rig camera (left eye) will be used to calculate the projection" },
+
+                "notSupportable" : "xrInput, customUtilityLayerScene, gazeCamera"
+            },
+
+            "teleportation": {
+                "defaultTargetMeshOptions" : {
+                    "teleportationFillColor":   { "type": "STRING" , "default": "#444444", "desc": "Fill color of the teleportation area" },
+                    "teleportationBorderColor": { "type": "STRING" , "default": "#FFFFFF", "desc": "Border color for the teleportation area" },
+                    "disableAnimation":         { "type": "BOOLEAN", "default": false, "desc": "Disable the mesh's animation sequence" },
+                    "disableLighting":          { "type": "BOOLEAN", "default": false, "desc": "Disable lighting on the material or the ring and arrow" }
+                },
+                "snapPointsOnly":       { "type": "BOOLEAN"     , "default": false, "desc": "Should teleportation move only to snap points" },
+                "snapToPositionRadius": { "type": "NUMBER"      , "default": 0.8  , "desc": "How close should the teleportation ray be (in meters) in order to snap to position" },
+                "timeToTeleport":       { "type": "NUMBER"      , "default": 1    , "desc": "If main component is used (no thumbstick), how long should the 'long press' (in millis) take before teleport" },
+                "useMainComponentOnly": { "type": "BOOLEAN"     , "default": false, "desc": "Disable using the thumbstick and use the main component (usually trigger) on long press.  Default when no thumbstick or touchpad." },
+                "useUtilityLayer":      { "type": "BOOLEAN"     , "default": false, "desc": "Should meshes created here be added to a utility layer or the main scene" },
+                "forceHandedness":      { "type": "XRHandedness", "default": null , "desc": "Should teleport work only on a specific hand" },
+
+                "notSupportable" : "xrInput, customUtilityLayerScene, defaultTargetMeshOptions[torusArrowMaterial], floorMeshes, renderingGroupId, snapPositions, teleportationTargetMesh, pickBlockerMeshes, generateRayPathMesh"
+            },
+
+            "DOM overlay": {
+                "element": { "type": "STRING" , "default": "" , "desc": "document query selector string for overlay." },
+                "supressXRSelectEvents": { "type": "BOOLEAN", "default": false, "desc": "Supress XR Select events on container element (DOM blocks interaction to scene)." },
+
+                "notSupportable" : ""
+            },
+
+            "eye tracking":  {
+
+                "notSupportable" : ""
+            },
+
+            "feature point system": {
+
+                "notSupportable" : ""
+            },
+
+            "hand tracking": {
+                "jointMeshes": {
+                    "desc": "Configuration object for the joint meshes.",
+                    "invisible" :           { "type": "BOOLEAN", "default": false, "desc": "Should the meshes created be invisible" },
+                    "keepOriginalVisible" : { "type": "BOOLEAN", "default": false, "desc": "Should the source mesh stay visible" },
+                    "scaleFactor" :         { "type": "NUMBER" , "default": 1    , "desc": "Scale factor for all joint meshes" },
+                    "enablePhysics" :       { "type": "BOOLEAN", "default": false, "desc": "Should each instance have its own physics impostor" },
+                    "physicsProps": {
+                        "desc": "If enabled, override default physics properties",
+                        "friction" :     { "type": "NUMBER"      , "default": null        , "desc": "Friction definitions" },
+                        "restitution" :  { "type": "NUMBER"      , "default": null        , "desc": "Restitution" },
+                        "impostorType" : { "type": "impostorType", "default": "NoImpostor", "desc": "The type of impostor to create"}
+                    }
+                },
+                "handMeshes": {
+                    "desc": "Configuration object for the hand meshes.",
+                    "disableDefaultMeshes" :           { "type": "BOOLEAN", "default": false, "desc": "Should the default hand mesh be disabled. In this case, the spheres will be visible (unless set invisible)."},
+                    "meshesUseLeftHandedCoordinates" : { "type": "BOOLEAN", "default": false, "desc": "Are the meshes prepared for a left-handed system."},
+
+                    "customColors": {
+                        "desc": "Override the colors of the hand meshes.",
+                        "base":        { "type": "COLOR3" , "default": false, "desc": ""},
+                        "fresnel":     { "type": "COLOR3" , "default": false, "desc": ""},
+                        "fingerColor": { "type": "COLOR3" , "default": false, "desc": ""},
+                        "tipFresnel":  { "type": "COLOR3" , "default": false, "desc": ""}
+                    }
+                },
+
+                "notSupportable" : "xrInput, jointMeshes[sourceMesh, onHandJointMeshGenerated], handMeshes[customMeshes, customRigMappings]"
+            },
+
+            "hit test (or Ray-casting)": {
+                "disablePermanentHitTest": { "type": "BOOLEAN", "default": false, "desc": "Do not create a permanent hit test. Will usually be used when only transient inputs are needed." },
+                "enableTransientHitTest" : { "type": "BOOLEAN", "default": false, "desc": "Enable transient (for example touch-based) hit test inspections." },
+                "transientHitTestProfile": { "type": "STRING" , "default": null , "desc": "Override the default transient hit test profile (generic-touchscreen)." },
+                "offsetRay":               { "type": "VECTOR" , "default": null , "desc": "Offset ray for the permanent hit test." },
+                "transientOffsetRay":      { "type": "VECTOR" , "default": null , "desc": "Offset ray for the transient hit test." },
+                "useReferenceSpace":       { "type": "BOOLEAN", "default": false, "desc": "Instead of using viewer space for hit tests, use the reference space defined in the session manager." },
+
+                "notSupportable" : "entityTypes"
+            },
+
+            "image tracking": {
+                "image" : [{
+                        "src":                     { "type": "STRING" , "default": null , "desc": "The source of the image. can be a URL" },
+                        "estimatedRealWorldWidth": { "type": "NUMBER" , "default": 1    , "desc": "The estimated width in the real world (in meters)" }
+                    }]
+                },
+
+                "notSupportable" : ""
+            },
+
+            "Layers (multi view)": {
+                "preferMultiviewOnInit": { "type": "BOOLEAN", "default": false, "desc": "Whether to try initializing the base projection layer as a multiview render target, if multiview is supported." },
+
+                "notSupportable" : ""
+            },
+
+            "light estimation": {
+                "disableCubeMapReflection":     { "type": "BOOLEAN", "default": false   , "desc": "Disable the cube map reflection feature. In this case only light direction and color will be updated" },
+                "setSceneEnvironmentTexture":   { "type": "BOOLEAN", "default": false   , "desc": "Should the scene's env texture be set to the cube map reflection texture. Note that this doesn't work is disableCubeMapReflection if set to false." },
+                "cubeMapPollInterval":          { "type": "NUMBER" , "default": null    , "desc": "How often should the cubemap update in ms.  If not set the cubemap will be updated every time the underlying system updates the environment texture." },
+                "lightEstimationPollInterval":  { "type": "NUMBER" , "default": null    , "desc": "How often should the light estimation properties update in ms.  If not set the light estimation properties will be updated on every frame (depending on the underlying system)" },
+                "createDirectionalLightSource": { "type": "BOOLEAN", "default": false   , "desc": "Should a directional light source be created.  If created, this light source will be updated whenever the light estimation values change" },
+                "reflectionFormat":             { "type": "STRING" , "default": "srgba8", "desc": "Define the format to be used for the light estimation texture." },
+                "disableVectorReuse":           { "type": "BOOLEAN", "default": false   , "desc": "Should the light estimation's needed vectors be constructed on each frame.  Use this when you use those vectors and don't want their values to change outside of the light estimation feature" },
+                "disableSphericalPolynomial":   { "type": "BOOLEAN", "default": false   , "desc": "Disable applying the spherical polynomial to the cube map texture." },
+
+                "notSupportable" : ""
+            },
+
+            "real world mesh detector": {
+                "doNotRemoveMeshesOnSessionEnded": { "type": "BOOLEAN", "default": false, "desc": "If set to true a reference of the created meshes will be kept until the next session starts.  If not defined, meshes will be removed from the array when the feature is detached or the session ended." },
+                "convertCoordinateSystems":        { "type": "BOOLEAN", "default": false, "desc": "If set to true, WebXRMeshDetector will convert coordinate systems for meshes.  If not defined, mesh conversions from right handed to left handed coordinate systems won't be conducted.  Right handed mesh data will be available through IWebXRVertexData.xrMesh." },
+
+                "notSupportable" : "worldParentNode, preferredDetectorOptions"
+            },
+
+            "near interaction": {
+                "useUtilityLayer":                       { "type": "BOOLEAN", "default": false, "desc": "Should meshes created here be added to a utility layer or the main scene?" },
+                "enableNearInteractionOnAllControllers": { "type": "BOOLEAN", "default": false, "desc": "Enable near interaction on all controllers instead of switching between them." },
+                "preferredHandedness":                   { "type": "XRHandedness", "default": null , "desc": "The preferred hand to give the near interaction to. This will be prioritized when the controller initialize.  If switch is enabled, it will still allow the user to switch between the different controllers" },
+
+                "notSupportable" : "xrInput, customUtilityLayerScene, farInteractionFeature, nearInteractionControllerMode, farInteractionFeature"
+            },
+
+            "real world plane detector": {
+                "doNotRemovePlanesOnSessionEnded": { "type": "BOOLEAN", "default": false, "desc": "If set to true a reference of the created planes will be kept until the next session starts.  If not defined, planes will be removed from the array when the feature is detached or the session ended." },
+
+                "notSupportable" : "worldParentNode, preferredDetectorOptions"
+            },
+
+            "walking locomotion": {
+
+                "notSupportable" : "locomotionTarget"
+            }
+        }
+    }
+}
